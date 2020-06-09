@@ -23,7 +23,6 @@ export async function registerUser(
     .then(async (res) => {
       if (res.status === 200) {
         await res.json().then((json) => {
-          console.log("fetch successful");
           response = { success: true, data: json.id };
         });
       } else if (res.status === 409) {

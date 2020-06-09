@@ -1,34 +1,33 @@
 import React, { useState } from "react";
 import { Modal, Button, Input, ErrorDiv } from "../../../components";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ReduxState } from "../../../store";
 import { patchMe } from "../../../api";
-import { User } from "../../../model/user";
+import { User, updateUser } from "../../../model/user";
 
 type Props = {
   cancelEdit: () => void;
 };
 
-const initialState: Partial<User> = {
-  username: ""
-}
+const initialState: Partial<User> = {}
 
 export function UserEditModal({ cancelEdit }: Props) {
   const user = useSelector((state: ReduxState) => state.user);
+  const dispatch = useDispatch();
   const [updatedUser, setUpdatedUser] = useState(initialState);
   const [error, setError] = useState("");
-
-  const getKeyValue = <U extends keyof T, T extends object>(key: U) => (obj: T) => obj[key];
 
   async function patchUser() {
     await patchMe(user.token, updatedUser)
       .then(() => {
-        const getUserName = getKeyValue<keyof Partial<User>, Partial<User>>("username")(updatedUser);
-        console.log()
+        debugger;
+        //const getUserName = getKeyValue<keyof Partial<User>, Partial<User>>("username")(updatedUser);
+        dispatch(updateUser(user, updatedUser));
+        cancelEdit();
       })
       .catch(err => {
-        setError("banana")
+        setError(err.data)
       })
   }
 

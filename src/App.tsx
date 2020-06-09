@@ -80,7 +80,7 @@ function Routes() {
       <ProtectedRoute exact path="/">
         <HomePage />
       </ProtectedRoute>
-      <ProtectedRoute exact path="/user/:username">
+      <ProtectedRoute exact path="/user/me">
         <UserPage />
       </ProtectedRoute>
       <ProtectedRoute exact path="/users">

@@ -85,6 +85,10 @@ export function LeaguePage() {
   function patchLeague() {
     setEdit(true);
   }
+  function updateLeague(newLeague: Partial<League>) {
+    debugger;
+    league!==undefined && setLeague({...league, ...newLeague});
+  }
 
   function deleteLeague() {
     debugger;
@@ -96,7 +100,6 @@ export function LeaguePage() {
         debugger;
         // TODO neki mobile friendly error page
       })
-   
   }
 
   return (
@@ -104,8 +107,8 @@ export function LeaguePage() {
       <Header />
       <CraLikeMain>
       {edit && (
-        // @ts-ignore, league will always be defined, be carefull with props
-        <LeagueEditModal oldLeague={league} cancelCreating={() => setEdit(false)} />
+         // @ts-ignore, league will always be defined, be carefull with props
+        <LeagueEditModal league={league} onSuccess={updateLeague} cancelEdit={() => setEdit(false)} />
       )}
       <PageTitle>League name: {league?.name}</PageTitle>
       {user.id && ( //kao ako je user admin onda ima prava

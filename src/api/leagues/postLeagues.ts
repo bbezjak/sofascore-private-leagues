@@ -1,16 +1,21 @@
 import { ApiResponse, fetchData, addToken, addXAppKey } from "..";
 import { League } from "../../model/league";
+import { addContentTypeJson } from "../fetch";
 
 export async function postLeagues(league: Partial<League>, token: string): Promise<ApiResponse> {
     const api = `/leagues`;
 
-    const method = "post";
+    const method = "POST";
   
     const headers = new Headers();
     addToken(headers, token);
     addXAppKey(headers);
+    addContentTypeJson(headers);
 
-    const body = league;
+    const body = {
+      name: league.name,
+      description: league.description,
+    };
   
     let response: ApiResponse = { success: false };
     debugger;
@@ -19,6 +24,7 @@ export async function postLeagues(league: Partial<League>, token: string): Promi
       .then(async (res) => {
         if (res.status === 201) {
           await res.json().then((json) => {
+            debugger;
             response = {success: true, data: json.id}
           })
         } else {

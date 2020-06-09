@@ -7,7 +7,7 @@ import { addContentTypeJson } from "../fetch";
 export async function patchMe( token: string, me: Partial<User> ): Promise<ApiResponse> {
   const api = "/users/me";
 
-  const method = "patch";
+  const method = "PATCH";
 
   console.log(me);
 
@@ -22,12 +22,11 @@ export async function patchMe( token: string, me: Partial<User> ): Promise<ApiRe
   await fetchData(api, method, headers, body)
     .then(async (res) => {
       debugger;
-      if (res.status === 200) {
-        res.json().then((json) => {
-          response = { success: true, data:json };
-        });
+      if (res.status === 204) {
+        response = { success: true };
       } else if ([404, 409, 422].includes(res.status)) {
-        res.json().then((json) => {
+        await res.json().then((json) => {
+          debugger;
           response = { success: false, data:json.error };
         });
       }  else {

@@ -27,7 +27,7 @@ export function Header() {
                     <NavLink to="/">HOME</NavLink>
                 </div>
                 <div>
-                    <NavLink to={`/user/${user.username}`}>{user.username}</NavLink>
+                    <NavLink to={`/user/me`}>{user.username}</NavLink>
                     <Button onClick={toggleTheme}>Change theme</Button>
                 </div>
             </FlexContainer>

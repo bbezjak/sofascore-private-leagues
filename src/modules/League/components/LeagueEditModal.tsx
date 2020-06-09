@@ -1,70 +1,60 @@
-import React, { useState } from "react";
-import { Modal, Button, Input } from "../../../components";
+import React, { useState, useEffect } from "react";
+import { Modal, Button, Input, ErrorDiv } from "../../../components";
 import styled from "styled-components";
 import { LeagueEvent } from "../../../model/leagueEvent";
+import { League } from "../../../model/league";
+import { patchByLeagueId, getLeagueById } from "../../../api";
+import { useSelector, useDispatch } from "react-redux";
+import { ReduxState } from "../../../store";
 
-const eventTeamplate: Partial<LeagueEvent> = {
-  name: "",
-  homeTeam: "",
-  awayTeam: "",
-  homeScore: 0,
-  awayScore: 0,
-  timestampCreated: "",
-  homeTeamPlayers: [],
-  awayTeamPlayers: []
-}
+const leagueTeamplate: Partial<League> = {}
 
 type Props = {
-    cancelCreating: () => void
+    league: League,
+    onSuccess: (league: Partial<League>) => void,
+    cancelEdit: () => void
 }
 
-export function LeagueEditModal({cancelCreating}: Props) {
-    const [event, setEvent] = useState(eventTeamplate);
+export function LeagueEditModal({league, onSuccess, cancelEdit}: Props) {
+    const user = useSelector( (state: ReduxState) => state.user);
 
-    function createEvent() {
-      // TODO api call na backend
+    const [newLeague, setNewLeague] = useState(leagueTeamplate);
+    const [error, setError] = useState("");
+
+    async function updateLeague() {
+      await patchByLeagueId(league.leagueId, newLeague, user.token)
+      .then(() => {
+        onSuccess(newLeague)
+        cancelEdit();
+      })
+      .catch(err => {
+        setError(err.data)
+      })
     }
   
     return (
       <Modal>
         <FlexContainer>
-          <label>Event name</label>
+          <label>League name</label>
           <Input
             type="text"
-            onChange={(e: any) => setEvent({ ...event, name: e.target.value })}
-            placeholder="ex. League 1"
+            onChange={(e: any) => setNewLeague({ ...newLeague, name: e.target.value })}
+            placeholder={league.name !== undefined ? league.name : "league name"}
           ></Input>
-          <label>Home Team</label>
+          <label>League description</label>
           <Input
             type="text"
-            onChange={(e: any) => setEvent({ ...event, homeTeam: e.target.value })}
-            placeholder="ex. Team A"
-          ></Input>
-           <label>Away team</label>
-          <Input
-            type="text"
-            onChange={(e: any) => setEvent({ ...event, awayTeam: e.target.value })}
-            placeholder="ex. Team B"
-          ></Input>
-           <label>Home Score</label>
-          <Input
-            type="text"
-            onChange={(e: any) => setEvent({ ...event, homeScore: e.target.value })}
-            placeholder="ex. 2"
-          ></Input>
-           <label>Away Score</label>
-          <Input
-            type="text"
-            onChange={(e: any) => setEvent({ ...event, awayScore: e.target.value })}
-            placeholder="ex. 0"
+            onChange={(e: any) => setNewLeague({ ...newLeague, description: e.target.value })}
+            placeholder={league.description !== undefined ? league.description : "league description"}
           ></Input>
         </FlexContainer>
-        <Button onClick={createEvent}>
-          <span>Create</span>
+        <Button onClick={updateLeague}>
+          <span>Update</span>
         </Button>
-        <Button onClick={cancelCreating}>
+        <Button onClick={cancelEdit}>
           <span>Cancel</span>
         </Button>
+        {error && <ErrorDiv error={error}/>}
       </Modal>
     );
   }
