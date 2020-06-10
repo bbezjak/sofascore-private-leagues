@@ -11,31 +11,17 @@ import { PageTitle } from "../../components";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store";
 import { getLeagueById, getEventsByLeagueId, deleteLeagueById } from "../../api";
+import { CreateEventModal } from "./components/CreateEventModal";
+import { EditLeagueCreateEvent } from "./hooks/EditLeagueCreateEvent";
 
 // https://www.pluralsight.com/guides/react-router-typescript
-
-const testEvent: LeagueEvent = {
-  eventId: "aaa1",
-  leagueId: "aaa",
-  name: "event",
-  homeTeam: "team A",
-  awayTeam: "team B",
-  homeScore: 2,
-  awayScore: 0,
-  timestampCreated: "5511026",
-  timestampUpdated: "5511026",
-  homeTeamPlayers: ["Miro", "Pero"],
-  awayTeamPlayers: ["Marko", "Zarko"]
-};
-
-const mockedEvents = [testEvent, testEvent, testEvent, testEvent, testEvent]
 
 interface Params {
   id: string;
 }
 
 export function LeaguePage() {
-  const [edit, setEdit] = useState(false);
+  const [editLeague, createEvent, setEditLeague, setCreateEvent] = EditLeagueCreateEvent();
   const [league, setLeague] = useState<League>();
   const [events, setEvents] = useState<LeagueEvent[]>([]);
   const user = useSelector( (state: ReduxState) => state.user);
@@ -43,7 +29,6 @@ export function LeaguePage() {
   const history = useHistory();
 
   // TODO dodaj spinner
-  // TODO dodaj fetch za ligu
 
   async function fetchLeague() {
     await getLeagueById(params.id, user.token)
@@ -82,9 +67,6 @@ export function LeaguePage() {
     // TODO set request to add users
   }
 
-  function patchLeague() {
-    setEdit(true);
-  }
   function updateLeague(newLeague: Partial<League>) {
     debugger;
     league!==undefined && setLeague({...league, ...newLeague});
@@ -102,16 +84,27 @@ export function LeaguePage() {
       })
   }
 
+  function addEventToList(event: LeagueEvent) {
+    setEvents([...events, event])
+    setCreateEvent(false)
+  }
+
   return (
     <>
       <Header />
       <CraLikeMain>
-      {edit && (
+      {editLeague && (
          // @ts-ignore, league will always be defined, be carefull with props
-        <LeagueEditModal league={league} onSuccess={updateLeague} cancelEdit={() => setEdit(false)} />
+        <LeagueEditModal league={league} onSuccess={addEventToList} cancelEdit={() => setEditLeague(false)} />
+      )}
+      
+      {createEvent && (
+         // @ts-ignore, league will always be defined, be carefull with props
+        <CreateEventModal league={league} onSuccess={updateLeague} cancelEdit={() => setCreateEvent(false)} />
       )}
       <PageTitle>League name: {league?.name}</PageTitle>
-      {user.id && ( //kao ako je user admin onda ima prava
+      {user.id && league?.admins?.includes(user.id) && (
+        <>
         <div>
            <Button onClick={addAdmins}>
             <span>Add Admins</span>
@@ -119,22 +112,32 @@ export function LeaguePage() {
           <Button onClick={addUsers}>
             <span>Add Users</span>
           </Button>
-          <Button onClick={patchLeague}>
+        </div>
+        <div>
+          <Button onClick={() => setEditLeague(true)}>
             <span>Update</span>
           </Button>
           <Button onClick={deleteLeague}>
             <span>Delete</span>
           </Button>
         </div>
+        <div>
+        <Button onClick={() => setCreateEvent(true)}>
+            <span>Add event</span>
+          </Button>
+        </div>
+        </>
       )}
       <FlexboxList>
-        {events.length !==0 && mockedEvents.map((event, index) => (
-          // @ts-ignore, league will always be defined, be carefull with props
-          <LeagueEventElem key={league.leagueId + "_" + event.eventId + "_" + index} leagueId={league.leagueId} event={testEvent} />
-        ))}
+        {events.length ===0 ?
+          <p>No events in selected league</p> :
+          events.map((event, index) => (
+            // @ts-ignore, league will always be defined, be carefull with props
+            <LeagueEventElem key={league.leagueId + "_" + event.eventId + "_" + index} leagueId={league.leagueId} event={testEvent} />
+          ))
+        }
       </FlexboxList>
-    </CraLikeMain>
+      </CraLikeMain>
     </>
-    
   );
 }

@@ -11,8 +11,6 @@ import { CreateLeagueModal } from "./components/CreateLeagueModal";
 import { getLeagues } from "../../api/leagues/getLeagues";
 
 export function HomePage() {
-
-    const dispatch = useDispatch();
     const { user } = useSelector((state: ReduxState) => state);
     const [creatingLeague, setCreatingLeague] = useState(false);
     const [leagues, setLeagues] = useState<League[]>([]);
@@ -71,6 +69,5 @@ export function HomePage() {
             </FlexboxList>
         </CraLikeMain>
         </>
-        
     )
 }

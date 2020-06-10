@@ -69,10 +69,11 @@ export const Card = styled.div`
   }
 `;
 
-export const FlexboxList = styled.div`
+export const FlexboxList = styled("div")<{column?: boolean}>`
   min-height: fit-content;
   margin: auto;
   display: flex;
+  ${props => props.column && `flex-direction: column`};
   justify-content: space-around;
   flex-wrap: wrap;
 
