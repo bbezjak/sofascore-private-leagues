@@ -23,7 +23,7 @@ async function getDeleteEventByLeagueIdEventId(
   token: string
 ): Promise<ApiResponse> {
   
-  const api = `/leagues/˘${leagueId}/events/${eventId}`;
+  const api = `/leagues/${leagueId}/events/${eventId}`;
 
   const headers = new Headers();
   addToken(headers, token);
@@ -32,11 +32,15 @@ async function getDeleteEventByLeagueIdEventId(
   let response: ApiResponse = { success: false };
 
   await fetchData(api, method, headers)
-    .then((res) => {
+    .then(async (res) => {
+      debugger;
       if (res.status === 200) {
-        res.json().then((json) => {
-          response = { success: true };
+        await res.json().then((json) => {
+          debugger;
+          response = { success: true, data:json };
         });
+      } else if (res.status === 204) {
+        response = { success: true};
       } else {
         response = { success: false };
       }

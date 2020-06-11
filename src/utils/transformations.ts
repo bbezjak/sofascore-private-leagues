@@ -12,14 +12,23 @@ export function convertToLeague(leagueData: any) {
         updatedAtTimestamp: leagueData.updatedAtTimestamp
     };
 
+    debugger;
+    let events: LeagueEvent[] = [];
+    leagueData.events.forEach((eventData: any) => {
+        const event: LeagueEvent = convertToLeagueEvent(eventData);
+        events.push(event);
+    });
+
+    league.events = events;
     return league;
 }
 
-export function convertToLeagueEvent(eventData: any, _leagueId: string) {
-    let league: LeagueEvent = {
+export function convertToLeagueEvent(eventData: any) {
+    debugger;
+    let event: LeagueEvent = {
         eventId: eventData.id,
-        leagueId: _leagueId,
-        name: eventData.name,
+        leagueId: eventData.leagueId,
+        eventName: eventData.eventName,
         homeTeam: eventData.homeTeam,
         awayTeam: eventData.awayTeam,
         homeScore: eventData.homeScore,
@@ -27,8 +36,9 @@ export function convertToLeagueEvent(eventData: any, _leagueId: string) {
         timestampCreated: eventData.timestampCreated,
         timestampUpdated: eventData.timestampUpdated,
         homeTeamPlayers: eventData.homePlayers,
-        awayTeamPlayers: eventData.awayPlayers
+        awayTeamPlayers: eventData.awayPlayers,
+        admins: eventData.admins
     };
 
-    return league;
+    return event;
 }

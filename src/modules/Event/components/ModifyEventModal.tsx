@@ -23,9 +23,9 @@ export function ModifyEventModal({ oldEvent, cancelEdit }: Props) {
         <Input
           type="text"
           onChange={(e: any) =>
-            setEvent({ ...event, name: e.target.value })
+            setEvent({ ...event, eventName: e.target.value })
           }
-          placeholder={event.name}
+          placeholder={event.eventName ? event.eventName : "Event name"}
         ></Input>
         <label>Home team</label>
         <Input
@@ -33,7 +33,7 @@ export function ModifyEventModal({ oldEvent, cancelEdit }: Props) {
           onChange={(e: any) =>
             setEvent({ ...event, homeTeam: e.target.value })
           }
-          placeholder={event.homeTeam}
+          placeholder={event.homeTeam ? event.homeTeam : "Home team name"}
         ></Input>
 
         <label>Away team</label>
@@ -42,7 +42,7 @@ export function ModifyEventModal({ oldEvent, cancelEdit }: Props) {
           onChange={(e: any) =>
             setEvent({ ...event, awayTeam: e.target.value })
           }
-          placeholder={event.awayTeam}
+          placeholder={event.awayTeam ? event.awayTeam : "Away team name"}
         ></Input>
 
         <label>Home score</label>
@@ -51,7 +51,7 @@ export function ModifyEventModal({ oldEvent, cancelEdit }: Props) {
           onChange={(e: any) =>
             setEvent({ ...event, homeScore: e.target.value })
           }
-          placeholder={event.homeScore.toString()}
+          placeholder={event.homeScore ? event.homeScore.toString() : "event name"}
         ></Input>
 
         <label>Away score</label>
@@ -60,7 +60,7 @@ export function ModifyEventModal({ oldEvent, cancelEdit }: Props) {
           onChange={(e: any) =>
             setEvent({ ...event, awayScore: e.target.value })
           }
-          placeholder={event.awayScore.toString()}
+          placeholder={event.awayScore ? event.awayScore.toString() : "event name"}
         ></Input>
 
         <label>Timestamp</label>
@@ -69,26 +69,26 @@ export function ModifyEventModal({ oldEvent, cancelEdit }: Props) {
           onChange={(e: any) =>
             setEvent({ ...event, timestampCreated: e.target.value })
           }
-          placeholder={event.timestampCreated.toString()}
+          placeholder={event.timestampCreated ? event.timestampCreated.toString() : "event name"}
         ></Input>
 
-        <label>Home players</label>
+        {/* <label>Home players</label>
+         <Input
+          type="string"
+          onChange={(e: any) =>
+            setEvent({ ...event, homeTeam: e.target.value })
+          }
+          placeholder={event.homePla ? event.name : "event name"}
+        ></Input> */}
+
+        {/* <label>Away players</label>
         <Input
           type="string"
           onChange={(e: any) =>
             setEvent({ ...event, homeTeam: e.target.value })
           }
-          placeholder={event.homeTeam}
-        ></Input>
-
-        <label>Away players</label>
-        <Input
-          type="string"
-          onChange={(e: any) =>
-            setEvent({ ...event, homeTeam: e.target.value })
-          }
-          placeholder={event.homeTeam}
-        ></Input>
+          placeholder={event.homeTeam ? event.name : "event name"}
+        ></Input> */}
 
       </FlexContainer>
       <Button onClick={patchEvent}>

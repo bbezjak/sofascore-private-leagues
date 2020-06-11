@@ -10,7 +10,7 @@ import { LeagueEventElem } from "./components/LeagueEventElem";
 import { PageTitle } from "../../components";
 import { useSelector } from "react-redux";
 import { ReduxState } from "../../store";
-import { getLeagueById, getEventsByLeagueId, deleteLeagueById } from "../../api";
+import { getLeagueById, deleteLeagueById } from "../../api";
 import { CreateEventModal } from "./components/CreateEventModal";
 import { EditLeagueCreateEvent } from "./hooks/EditLeagueCreateEvent";
 
@@ -20,10 +20,13 @@ interface Params {
   id: string;
 }
 
+const leagueTemplate: League = {
+  leagueId: ""
+}
+
 export function LeaguePage() {
   const [editLeague, createEvent, setEditLeague, setCreateEvent] = EditLeagueCreateEvent();
-  const [league, setLeague] = useState<League>();
-  const [events, setEvents] = useState<LeagueEvent[]>([]);
+  const [league, setLeague] = useState<League>(leagueTemplate);
   const user = useSelector( (state: ReduxState) => state.user);
   let params = useParams<Params>();
   const history = useHistory();
@@ -42,21 +45,8 @@ export function LeaguePage() {
         })
   }
 
-  async function fetchEvents() {
-    await getEventsByLeagueId(params.id, user.token)
-        .then((res) => {
-          // TODO obradi evente za ligu
-          debugger;
-        })
-        .catch((err) => {
-            // TODO dodaj error div
-            debugger;
-        })
-  }
-
   useEffect( () => {
     fetchLeague();
-    fetchEvents();
   }, [])
 
   function addAdmins() {
@@ -85,8 +75,10 @@ export function LeaguePage() {
   }
 
   function addEventToList(event: LeagueEvent) {
-    setEvents([...events, event])
-    setCreateEvent(false)
+    const newEvents: LeagueEvent[] | undefined = league.events;
+    newEvents?.push(event);
+    const newLeague: League = {...league, events: newEvents}
+    setLeague({...newLeague});
   }
 
   return (
@@ -95,12 +87,12 @@ export function LeaguePage() {
       <CraLikeMain>
       {editLeague && (
          // @ts-ignore, league will always be defined, be carefull with props
-        <LeagueEditModal league={league} onSuccess={addEventToList} cancelEdit={() => setEditLeague(false)} />
+        <LeagueEditModal league={league} onSuccess={updateLeague} cancelEdit={() => setEditLeague(false)} />
       )}
       
       {createEvent && (
          // @ts-ignore, league will always be defined, be carefull with props
-        <CreateEventModal league={league} onSuccess={updateLeague} cancelEdit={() => setCreateEvent(false)} />
+        <CreateEventModal league={league} onSuccess={addEventToList} cancelEdit={() => setCreateEvent(false)} />
       )}
       <PageTitle>League name: {league?.name}</PageTitle>
       {user.id && league?.admins?.includes(user.id) && (
@@ -129,11 +121,11 @@ export function LeaguePage() {
         </>
       )}
       <FlexboxList>
-        {events.length ===0 ?
+        {league?.events?.length ===0 ?
           <p>No events in selected league</p> :
-          events.map((event, index) => (
+          league?.events?.map((event, index) => (
             // @ts-ignore, league will always be defined, be carefull with props
-            <LeagueEventElem key={league.leagueId + "_" + event.eventId + "_" + index} leagueId={league.leagueId} event={testEvent} />
+            <LeagueEventElem key={league.leagueId + "_" + event.eventId + "_" + index} leagueId={league.leagueId} event={event} />
           ))
         }
       </FlexboxList>

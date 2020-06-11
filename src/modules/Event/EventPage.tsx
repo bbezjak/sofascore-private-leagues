@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { League } from "../../model/league";
 import { Button, PageTitle } from "../../components";
-import { CraLikeMain, FlexboxList } from "../../utils";
+import { CraLikeMain, FlexboxList, convertToLeagueEvent } from "../../utils";
 import { useParams, useHistory } from "react-router-dom";
 import { Header } from "../Header";
 import styled from "styled-components";
 import { HomeLeagueElem } from "../Home/components/HomeLeagueElem";
 import { ModifyEventModal } from "./components/ModifyEventModal";
 import { LeagueEvent } from "../../model/leagueEvent";
+import { useSelector } from "react-redux";
+import { ReduxState } from "../../store";
+import { getEventByLeagueIdEventId, deleteEventByLeagueIdEventId } from "../../api";
 
 // https://www.pluralsight.com/guides/react-router-typescript
 
-const testEvent: LeagueEvent = {
+const testEvent: Partial<LeagueEvent> = {
   eventId: "aaa1",
   leagueId: "aaa",
-  name: "event",
+  eventName: "event",
   homeTeam: "team A",
   awayTeam: "team B",
   homeScore: 2,
@@ -25,29 +28,56 @@ const testEvent: LeagueEvent = {
   awayTeamPlayers: ["Marko", "Zarko"],
 };
 
-interface Params {
-  id: string;
-}
+const eventTemplate: LeagueEvent = {
+  eventId: "",
+  leagueId: ""
+};
 
-type Props = {
-    event: LeagueEvent
+interface Params {
+  leagueId: string,
+  eventId: string;
 }
 
 export function EventPage() {
+  const user = useSelector( (state: ReduxState) => state.user)
   const [edit, setEdit] = useState(false);
+  const [event, setEvent] = useState(eventTemplate);
   let params = useParams<Params>();
   const history = useHistory();
 
   // TODO dodaj spinner
-  // TODO dodaj fetch za event
+  
+  async function fetchEvent() {
+    await getEventByLeagueIdEventId(params.leagueId, params.eventId,  user.token)
+        .then((res) => {
+          let event: LeagueEvent = convertToLeagueEvent(res.data);
+          debugger;
+          setEvent(event);
+        })
+        .catch((err) => {
+            // TODO dodaj error div
+            debugger;
+        })
+  }
+
+  useEffect( () => {
+    fetchEvent();
+  }, [])
 
   function patchEvent() {
     setEdit(true);
   }
 
   function deleteEvent() {
-    // TODO set request to delete league
-    history.goBack();
+    debugger;
+    if(event === undefined) return;
+
+    deleteEventByLeagueIdEventId(event.leagueId, event.eventId, user.token)
+      .then(() =>  history.goBack())
+      .catch((err) => {
+        debugger;
+        // TODO neki mobile friendly error page
+      })
   }
 
   function addAdmins() {
@@ -63,33 +93,30 @@ export function EventPage() {
     <Header />
     <CraLikeMain>
       {edit && (
-        <ModifyEventModal oldEvent={testEvent} cancelEdit={() => setEdit(false)} />
+        <ModifyEventModal oldEvent={event} cancelEdit={() => setEdit(false)} />
       )}
-      <PageTitle>Event ID: {params.id}</PageTitle>
-      {params.id === "aaa" && ( //kao ako je user admin onda ima prava
+      <PageTitle>Event name: {event.eventName}</PageTitle>
+        {user.id && event?.admins?.includes(user.id) && (
+        <>
         <div>
-          <Button onClick={addAdmins}>
-            <span>Add Users</span>
-          </Button>
-          <Button onClick={addUsers}>
+           <Button onClick={addAdmins}>
             <span>Add Admins</span>
           </Button>
-          <Button onClick={patchEvent}>
+          <Button onClick={addUsers}>
+            <span>Add Users</span>
+          </Button>
+        </div>
+        <div>
+          <Button onClick={() => setEdit(true)}>
             <span>Update</span>
           </Button>
           <Button onClick={deleteEvent}>
             <span>Delete</span>
           </Button>
         </div>
+        </>
       )}
-
-        <div>
-          <p>{testEvent.eventId}</p>
-          <p>{testEvent.homeTeam}</p>
-          <p>{testEvent.awayTeam}</p>
-          <p>{testEvent.homeScore + ":" + testEvent.awayScore}</p>
-          <p>{testEvent.timestampCreated}</p>
-        </div>
+      <PageTitle>{event.homeTeam} vs {event.awayTeam}</PageTitle>
     </CraLikeMain>
     </>
     

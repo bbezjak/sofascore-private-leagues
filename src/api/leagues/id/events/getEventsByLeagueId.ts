@@ -5,7 +5,7 @@ export async function getEventsByLeagueId(
   token: string
 ): Promise<ApiResponse> {
   
-  const api = `/leagues/˘${leagueId}/events`;
+  const api = `/leagues/${leagueId}/events`;
 
   const method = "get";
 
@@ -18,7 +18,9 @@ export async function getEventsByLeagueId(
   await fetchData(api, method, headers)
     .then((res) => {
       if (res.status === 200) {
+        debugger;
         res.json().then((json) => {
+          debugger;
           response = { success: true };
         });
       } else {

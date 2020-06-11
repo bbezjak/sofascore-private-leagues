@@ -3,17 +3,39 @@ import { LeagueEvent } from "../../../model/leagueEvent";
 import { Modal, Button, Input } from "../../../components";
 import styled from "styled-components";
 import { League } from "../../../model/league";
+import { postEventsByLeagueId } from "../../../api";
+import { useSelector } from "react-redux";
+import { ReduxState } from "../../../store";
 
 type Props = {
   league: League;
+  onSuccess: (event :LeagueEvent) => void,
   cancelEdit: () => void;
 };
 
-export function CreateEventModal({ league, cancelEdit }: Props) {
-  const [event, setEvent] = useState<Partial<LeagueEvent>>();
+export function CreateEventModal({ league, onSuccess, cancelEdit }: Props) {
+  const user = useSelector( (state: ReduxState) => state.user);
+  const [event, setEvent] = useState<Partial<LeagueEvent>>({});
 
   function postEvent() {
-    // TODO api call na backend
+    debugger;
+    const requestBody: Partial<LeagueEvent> = event;
+    requestBody.leagueId = league.leagueId;
+    requestBody.admins = league.admins;
+    postEventsByLeagueId(league.leagueId, user.token, requestBody)
+      .then( (res) => {
+        const newEvent: LeagueEvent = {
+          eventId: res.data,
+          leagueId: league.leagueId,
+          ...event,
+          admins: requestBody.admins
+        }
+        debugger;
+        onSuccess(newEvent);
+        cancelEdit();
+      }).catch(err => {
+        debugger
+      })
   }
 
   return (
@@ -23,9 +45,9 @@ export function CreateEventModal({ league, cancelEdit }: Props) {
         <Input
           type="text"
           onChange={(e: any) =>
-            setEvent({ ...event, name: e.target.value })
+            setEvent({ ...event, eventName: e.target.value })
           }
-          placeholder="ex. Game day"
+          placeholder="ex. NBA Finals game 7"
         ></Input>
         <label>Home team</label>
         <Input

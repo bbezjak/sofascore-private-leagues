@@ -24,9 +24,8 @@ function LeagueEventElemComponent({leagueId, event}: Props) {
 
     return(
        <Card onClick={redirectToLeague}>
-            <span>{event.name}</span>
-            <span>{event.homeTeam}</span>
-            <span>{event.awayTeam}</span>
+            <span>{event.eventName}</span>
+            <span>{event.homeTeam} : {event.awayTeam}</span>
             {/* {<Buttons>
             <Button onClick={() => setEdit}>
                 <span>Update League</span>

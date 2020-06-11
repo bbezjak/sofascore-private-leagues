@@ -1,17 +1,18 @@
 import { ApiResponse, addToken, addXAppKey, fetchData } from "../../..";
 import { addContentTypeJson } from "../../../fetch";
+import { LeagueEvent } from "../../../../model/leagueEvent";
 
 export async function postEventsByLeagueId(
   leagueId: string,
   token: string,
-  event: Event
+  event: Partial<LeagueEvent>
 ): Promise<ApiResponse> {
   
-  const api = `/leagues/˘${leagueId}/events`;
+  const api = `/leagues/${leagueId}/events`;
 
-  const method = "post";
+  const method = "POST";
 
-  const body = event;
+  const body = {...event};
 
   const headers = new Headers();
   addToken(headers, token);
@@ -21,16 +22,18 @@ export async function postEventsByLeagueId(
   let response: ApiResponse = { success: false };
 
   await fetchData(api, method, headers, body)
-    .then((res) => {
-      if (res.status === 200) {
-        res.json().then((json) => {
-          response = { success: true };
+    .then(async (res) => {
+      debugger;
+      if (res.status === 201) {
+        await res.json().then((json) => {
+          response = { success: true, data: json.id };
         });
       } else {
         response = { success: false };
       }
     })
     .catch((err) => {
+      debugger;
       response = { success: false };
     });
 
