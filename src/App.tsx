@@ -16,7 +16,6 @@ import { store, persistor } from "./store";
 import "./App.css";
 import { GlobalStyles } from "./utils/styles";
 import { Registration } from "./modules/RegistrationLogin/Registration/Registration";
-import { Users } from "./modules/Users/Users";
 import { LeaguePage } from "./modules/League";
 import { EventPage } from "./modules/Event";
 
@@ -82,9 +81,6 @@ function Routes() {
       </ProtectedRoute>
       <ProtectedRoute exact path="/user/me">
         <UserPage />
-      </ProtectedRoute>
-      <ProtectedRoute exact path="/users">
-        <Users />
       </ProtectedRoute>
       <ProtectedRoute exact path="/league/:id">
         <LeaguePage />
