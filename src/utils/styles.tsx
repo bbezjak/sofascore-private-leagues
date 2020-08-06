@@ -1,6 +1,6 @@
 import styled, { css, createGlobalStyle } from "styled-components";
-import * as kobe_black from "./backgroundPictures/kobe_usa_black.jpg";
-import * as kobe_take_flight from "./backgroundPictures/kobe_take_flight.jpg";
+import * as kobe_black from "./../image/kobe_usa_black.jpg";
+import * as kobe_take_flight from "./../image/kobe_take_flight.jpg";
 
 export const PRIMARY_COLOR = "#ab47bc";
 export const PRIMARY_COLOR_LIGHT = "#df78ef";
