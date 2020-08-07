@@ -18,6 +18,7 @@ import { GlobalStyles } from "./utils/styles";
 import { Registration } from "./modules/RegistrationLogin/Registration/Registration";
 import { LeaguePage } from "./modules/League";
 import { EventPage } from "./modules/Event";
+import { ThemeProvider } from "./theme";
 
 /*
   TODO 
@@ -25,17 +26,18 @@ import { EventPage } from "./modules/Event";
 */
 
 function App() {
-
   return (
     <>
-    <div id={"root-modal"}></div>
-    <div id={"error-modal"}></div>
-    <GlobalStyles />
-    <Provider store={store}>
+      <div id={"root-modal"}></div>
+      <div id={"error-modal"}></div>
+      <Provider store={store}>
         <PersistGate persistor={persistor}>
-          <BrowserRouter>
-            <Routes />
-          </BrowserRouter>
+          <ThemeProvider>
+            <GlobalStyles />
+            <BrowserRouter>
+              <Routes />
+            </BrowserRouter>
+          </ThemeProvider>
         </PersistGate>
       </Provider>
     </>

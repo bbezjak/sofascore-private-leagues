@@ -1,6 +1,5 @@
 import styled, { css, createGlobalStyle } from "styled-components";
-import * as kobe_black from "./../image/kobe_usa_black.jpg";
-import * as kobe_take_flight from "./../image/kobe_take_flight.jpg";
+import { Theme } from "./../theme/theme";
 
 export const PRIMARY_COLOR = "#ab47bc";
 export const PRIMARY_COLOR_LIGHT = "#df78ef";
@@ -37,11 +36,6 @@ export const Fade = styled.div<{ visible?: boolean }>`
 // This div is not exact replica of CRA`s App.tsx styles
 export const CraLikeMain = styled.div`
   text-align: center;
-  background-image: url(${kobe_black});
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -69,11 +63,11 @@ export const Card = styled.div`
   }
 `;
 
-export const FlexboxList = styled("div")<{column?: boolean}>`
+export const FlexboxList = styled("div")<{ column?: boolean }>`
   min-height: fit-content;
   margin: auto;
   display: flex;
-  ${props => props.column && `flex-direction: column`};
+  ${(props) => props.column && `flex-direction: column`};
   justify-content: space-around;
   flex-wrap: wrap;
 
@@ -82,8 +76,13 @@ export const FlexboxList = styled("div")<{column?: boolean}>`
   }
 `;
 
-export const GlobalStyles = createGlobalStyle`
+// https://spectrum.chat/styled-components/general/i-cant-use-my-theme-in-createglobalstyle-function-styled-components-v4-react-v16-6-3~0978b404-ab71-45c9-8f75-0862abde4eb5
+export const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
   body {
+    background-image: url(${({ theme }) => theme.backgroundImage});
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     font-family: 'Lato', sans-serif;
     user-select: none;
     ${backgroundColor};
@@ -106,6 +105,12 @@ export const GlobalStyles = createGlobalStyle`
 
     &:visited {
       text-decoration: none
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    body {
+      
     }
   }
 `;

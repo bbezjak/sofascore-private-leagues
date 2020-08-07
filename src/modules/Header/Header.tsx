@@ -4,21 +4,11 @@ import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ReduxState } from "../../store";
 import { Button, PageTitle } from "../../components";
-import { ThemeActions, ThemeOption, setDarkTheme, setLightTheme } from "../../store/theme";
 
 export function Header() {
 
     const dispatch = useDispatch();
     const user = useSelector((state: ReduxState) => state.user)
-    const theme = useSelector((state: ReduxState) => state.theme.choice)
-
-    function toggleTheme() {
-        if(theme === ThemeOption.LIGHT) {
-            dispatch(setDarkTheme());
-        } else {
-            dispatch(setLightTheme());
-        }
-    }
 
     return(
         <StyledHeader>
@@ -28,7 +18,7 @@ export function Header() {
                 </div>
                 <div>
                     <NavLink to={`/user/me`}>{user.username}</NavLink>
-                    <Button onClick={toggleTheme}>Change theme</Button>
+                    <Button >Change theme</Button>
                 </div>
             </FlexContainer>
         </StyledHeader>
