@@ -10,7 +10,7 @@ type Props = {
   cancelEdit: () => void;
 };
 
-const initialState: Partial<User> = {}
+const initialState: Partial<User> = {};
 
 export function UserEditModal({ cancelEdit }: Props) {
   const user = useSelector((state: ReduxState) => state.user);
@@ -26,18 +26,21 @@ export function UserEditModal({ cancelEdit }: Props) {
         dispatch(updateUser(user, updatedUser));
         cancelEdit();
       })
-      .catch(err => {
-        setError(err.data)
-      })
+      .catch((err) => {
+        setError(err.data);
+      });
   }
 
   return (
     <Modal>
       <FlexContainer>
-        <label>Username</label>
         <Input
+          id={"ModalUsername"}
+          label={"Username"}
           type="text"
-          onChange={(e: any) => setUpdatedUser({ ...updatedUser, username: e.target.value })}
+          onChange={(e: any) =>
+            setUpdatedUser({ ...updatedUser, username: e.target.value })
+          }
           placeholder={user.username ? user.username : "new username"}
         ></Input>
       </FlexContainer>
@@ -47,7 +50,7 @@ export function UserEditModal({ cancelEdit }: Props) {
       <Button onClick={cancelEdit}>
         <span>Cancel</span>
       </Button>
-      {error && <ErrorDiv error={error}/>}
+      {error && <ErrorDiv error={error} />}
     </Modal>
   );
 }

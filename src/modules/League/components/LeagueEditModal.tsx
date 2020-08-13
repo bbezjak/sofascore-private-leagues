@@ -7,59 +7,69 @@ import { patchByLeagueId, getLeagueById } from "../../../api";
 import { useSelector, useDispatch } from "react-redux";
 import { ReduxState } from "../../../store";
 
-const leagueTeamplate: Partial<League> = {}
+const leagueTeamplate: Partial<League> = {};
 
 type Props = {
-    league: League,
-    onSuccess: (league: Partial<League>) => void,
-    cancelEdit: () => void
-}
+  league: League;
+  onSuccess: (league: Partial<League>) => void;
+  cancelEdit: () => void;
+};
 
-export function LeagueEditModal({league, onSuccess, cancelEdit}: Props) {
-    const user = useSelector( (state: ReduxState) => state.user);
+export function LeagueEditModal({ league, onSuccess, cancelEdit }: Props) {
+  const user = useSelector((state: ReduxState) => state.user);
 
-    const [newLeague, setNewLeague] = useState(leagueTeamplate);
-    const [error, setError] = useState("");
+  const [newLeague, setNewLeague] = useState(leagueTeamplate);
+  const [error, setError] = useState("");
 
-    async function updateLeague() {
-      await patchByLeagueId(league.leagueId, newLeague, user.token)
+  async function updateLeague() {
+    await patchByLeagueId(league.leagueId, newLeague, user.token)
       .then(() => {
-        onSuccess(newLeague)
+        onSuccess(newLeague);
         cancelEdit();
       })
-      .catch(err => {
-        setError(err.data)
-      })
-    }
-  
-    return (
-      <Modal>
-        <FlexContainer>
-          <label>League name</label>
-          <Input
-            type="text"
-            onChange={(e: any) => setNewLeague({ ...newLeague, name: e.target.value })}
-            placeholder={league.name !== undefined ? league.name : "league name"}
-          ></Input>
-          <label>League description</label>
-          <Input
-            type="text"
-            onChange={(e: any) => setNewLeague({ ...newLeague, description: e.target.value })}
-            placeholder={league.description !== undefined ? league.description : "league description"}
-          ></Input>
-        </FlexContainer>
-        <Button onClick={updateLeague}>
-          <span>Update</span>
-        </Button>
-        <Button onClick={cancelEdit}>
-          <span>Cancel</span>
-        </Button>
-        {error && <ErrorDiv error={error}/>}
-      </Modal>
-    );
+      .catch((err) => {
+        setError(err.data);
+      });
   }
-  
-  const FlexContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-  `;
+
+  return (
+    <Modal>
+      <FlexContainer>
+        <Input
+          id={"leagueName"}
+          label={"League name"}
+          type="text"
+          onChange={(e: any) =>
+            setNewLeague({ ...newLeague, name: e.target.value })
+          }
+          placeholder={league.name !== undefined ? league.name : "league name"}
+        ></Input>
+        <Input
+          id={"leagueDescription"}
+          label={"League description"}
+          type="text"
+          onChange={(e: any) =>
+            setNewLeague({ ...newLeague, description: e.target.value })
+          }
+          placeholder={
+            league.description !== undefined
+              ? league.description
+              : "league description"
+          }
+        ></Input>
+      </FlexContainer>
+      <Button onClick={updateLeague}>
+        <span>Update</span>
+      </Button>
+      <Button onClick={cancelEdit}>
+        <span>Cancel</span>
+      </Button>
+      {error && <ErrorDiv error={error} />}
+    </Modal>
+  );
+}
+
+const FlexContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;

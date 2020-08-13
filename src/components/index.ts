@@ -1,4 +1,5 @@
 export * from "./Button";
+export * from "./Checkbox"
 export * from "./ProtectedRoute";
 export * from "./Spinner";
 export * from "./Modal";

@@ -39,14 +39,16 @@ export function CreateLeagueModal({onSuccess, cancelCreating }: Props) {
   return (
     <Modal>
       <FlexContainer>
-        <label>League name</label>
         <Input
+          id={"leagueName"}
+          label={"League name"}
           type="text"
           onChange={(e: any) => setLeague({ ...league, name: e.target.value })}
           placeholder="ex. League 1"
         ></Input>
-        <label>League data</label>
         <Input
+          id={"leagueData"}
+          label={"League data"}
           type="text"
           onChange={(e: any) => setLeague({ ...league, description: e.target.value })}
           placeholder="ex. French 1. football league"

@@ -19,57 +19,67 @@ export function ModifyEventModal({ oldEvent, cancelEdit }: Props) {
   return (
     <Modal>
       <FlexContainer>
-        <label>Event name</label>
         <Input
+          id={"eventName"}
+          label={"Event name"}
           type="text"
           onChange={(e: any) =>
             setEvent({ ...event, eventName: e.target.value })
           }
           placeholder={event.eventName ? event.eventName : "Event name"}
         ></Input>
-        <label>Home team</label>
         <Input
+          id={"homeTeam"}
+          label={"Home team"}
           type="text"
           onChange={(e: any) =>
             setEvent({ ...event, homeTeam: e.target.value })
           }
           placeholder={event.homeTeam ? event.homeTeam : "Home team name"}
         ></Input>
-
-        <label>Away team</label>
         <Input
+          id={"awayTeam"}
+          label={"Away team"}
           type="text"
           onChange={(e: any) =>
             setEvent({ ...event, awayTeam: e.target.value })
           }
           placeholder={event.awayTeam ? event.awayTeam : "Away team name"}
         ></Input>
-
-        <label>Home score</label>
         <Input
+          id={"homeTeam"}
+          label={"Home team"}
           type="number"
           onChange={(e: any) =>
             setEvent({ ...event, homeScore: e.target.value })
           }
-          placeholder={event.homeScore ? event.homeScore.toString() : "event name"}
+          placeholder={
+            event.homeScore ? event.homeScore.toString() : "event name"
+          }
         ></Input>
-
-        <label>Away score</label>
         <Input
+          id={"awayTeam"}
+          label={"Away Score"}
           type="number"
           onChange={(e: any) =>
             setEvent({ ...event, awayScore: e.target.value })
           }
-          placeholder={event.awayScore ? event.awayScore.toString() : "event name"}
+          placeholder={
+            event.awayScore ? event.awayScore.toString() : "event name"
+          }
         ></Input>
-
-        <label>Timestamp</label>
         <Input
+          id={"timestamp"}
+          label={"Timestamp"}
           type="number"
           onChange={(e: any) =>
             setEvent({ ...event, timestampCreated: e.target.value })
           }
-          placeholder={event.timestampCreated ? event.timestampCreated.toString() : "event name"}
+          placeholder={
+            event.timestampCreated
+              ? event.timestampCreated.toString()
+              : "event name"
+          }
         ></Input>
 
         {/* <label>Home players</label>
@@ -89,7 +99,6 @@ export function ModifyEventModal({ oldEvent, cancelEdit }: Props) {
           }
           placeholder={event.homeTeam ? event.name : "event name"}
         ></Input> */}
-
       </FlexContainer>
       <Button onClick={patchEvent}>
         <span>Patch</span>

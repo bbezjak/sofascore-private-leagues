@@ -9,12 +9,12 @@ import { ReduxState } from "../../../store";
 
 type Props = {
   league: League;
-  onSuccess: (event :LeagueEvent) => void,
+  onSuccess: (event: LeagueEvent) => void;
   cancelEdit: () => void;
 };
 
 export function CreateEventModal({ league, onSuccess, cancelEdit }: Props) {
-  const user = useSelector( (state: ReduxState) => state.user);
+  const user = useSelector((state: ReduxState) => state.user);
   const [event, setEvent] = useState<Partial<LeagueEvent>>({});
 
   function postEvent() {
@@ -23,50 +23,52 @@ export function CreateEventModal({ league, onSuccess, cancelEdit }: Props) {
     requestBody.leagueId = league.leagueId;
     requestBody.admins = league.admins;
     postEventsByLeagueId(league.leagueId, user.token, requestBody)
-      .then( (res) => {
+      .then((res) => {
         const newEvent: LeagueEvent = {
           eventId: res.data,
           leagueId: league.leagueId,
           ...event,
-          admins: requestBody.admins
-        }
+          admins: requestBody.admins,
+        };
         debugger;
         onSuccess(newEvent);
         cancelEdit();
-      }).catch(err => {
-        debugger
       })
+      .catch((err) => {
+        debugger;
+      });
   }
 
   return (
     <Modal>
       <FlexContainer>
-        <label>Event name</label>
         <Input
+          id={"eventName"}
+          label={"Event name"}
           type="text"
           onChange={(e: any) =>
             setEvent({ ...event, eventName: e.target.value })
           }
           placeholder="ex. NBA Finals game 7"
         ></Input>
-        <label>Home team</label>
         <Input
+          id={"homeTeam"}
+          label={"Home team"}
           type="text"
           onChange={(e: any) =>
             setEvent({ ...event, homeTeam: e.target.value })
           }
           placeholder="ex. LA Lakers"
         ></Input>
-
-        <label>Away team</label>
         <Input
+          id={"awayTeam"}
+          label={"Away team"}
           type="text"
           onChange={(e: any) =>
             setEvent({ ...event, awayTeam: e.target.value })
           }
           placeholder="ex. Boston Celtics"
         ></Input>
-
       </FlexContainer>
       <Button onClick={postEvent}>
         <span>Create</span>

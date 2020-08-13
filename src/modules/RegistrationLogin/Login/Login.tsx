@@ -1,15 +1,14 @@
 import React, { useState, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import styled from "styled-components";
-
-import Input from "../components/Input/Input";
 
 import { loginUser, ApiResponse } from "../../../api";
-import { ErrorDiv } from "../../../components";
+import { ErrorDiv, Checkbox, Button } from "../../../components";
 import { ReduxState } from "../../../store";
 import { initUser, rememberUser } from "../../../model/user";
 import { CraLikeMain } from "../../../utils";
+import { LoginRegistrationInput } from "../components/LoginRegistrationInput/LoginRegistrationInput";
+import { StyledRegistrationLoginModal, Form } from "../components";
 
 export function Login() {
   const [username, setUsername] = useState("");
@@ -19,29 +18,33 @@ export function Login() {
   const initialErrors = {
     usernameError: false,
     passwordError: false,
-    fetchError: undefined
-  }
+    fetchError: undefined,
+  };
   const [errors, setErrors] = useState(initialErrors);
 
   const dispatch = useDispatch();
   const { user } = useSelector((state: ReduxState) => state); //da imam state.user islo bi bez {}
+
   function isFormValid() {
-
-    setErrors(initialErrors)
-
+    setErrors(initialErrors);
     let _usernameError = false;
     let _passwordError = false;
 
     if (username === "") {
       _usernameError = true;
     }
-
     if (password === "") {
       _passwordError = true;
     }
 
-    setErrors({...errors, usernameError: _usernameError, passwordError: _passwordError, fetchError:undefined});
-    return _usernameError===false && _passwordError===false;
+    setErrors({
+      ...errors,
+      usernameError: _usernameError,
+      passwordError: _passwordError,
+      fetchError: undefined,
+    });
+
+    return _usernameError === false && _passwordError === false;
   }
 
   const fetchUser = async (e: FormEvent) => {
@@ -59,7 +62,7 @@ export function Login() {
         }
       })
       .catch((err: ApiResponse) => {
-        setErrors({...errors, fetchError:err.data});
+        setErrors({ ...errors, fetchError: err.data });
       });
   };
 
@@ -69,99 +72,41 @@ export function Login() {
 
   return (
     <CraLikeMain>
-    <StyledLogin>
-      {user.token && <Redirect to="/" />}
-      <div id="login-modal" className="flex-container blue-item">
-          <h1>Log in</h1>
-          <form onSubmit={fetchUser}>
-            <Input
-              label="Username"
-              type="text"
-              onChange={(e: any) => setUsername(e.target.value)}
-              placeholder="Your Username"
-              displayError={errors.usernameError}
-              errorMessage="Please provide username"
+      <StyledRegistrationLoginModal>
+        {user.token && <Redirect to="/" />}
+        <h2>Log in</h2>
+        <Form onSubmit={fetchUser}>
+          <LoginRegistrationInput
+            label="Username"
+            type="text"
+            onChange={(e: any) => setUsername(e.target.value)}
+            placeholder="Your Username"
+            displayError={errors.usernameError}
+            errorMessage="Please provide username"
+          />
+          <LoginRegistrationInput
+            label="Password"
+            type="password"
+            onChange={(e: any) => setPassword(e.target.value)}
+            placeholder="Your Password"
+            displayError={errors.passwordError}
+            errorMessage="Please provide password"
+          />
+          <div style={{ alignSelf: "flex-start" }}>
+            <Checkbox
+              id="rememberMe"
+              checked={rememberMe}
+              onChange={handleChecked}
+              label={"remember me"}
             />
-            <Input
-              label="Password"
-              type="password"
-              onChange={(e: any) => setPassword(e.target.value)}
-              placeholder="Your Password"
-              displayError={errors.passwordError}
-              errorMessage="Please provide password"
-            />
-            <div className="flex-container">
-              <button type="submit">Login</button>
-              <div>
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={handleChecked}
-                />
-                <label>Remember me</label>
-                <a href="/registration">Create account</a>
-              </div>
-            </div>
-          </form>
-          {errors.fetchError && <ErrorDiv error={errors.fetchError}/>}
-        </div>
-    </StyledLogin>
+          </div>
+          <Button type="submit">Login</Button>
+          <div>
+            <a href="/registration">Create account</a>
+          </div>
+        </Form>
+        <ErrorDiv error={errors.fetchError} style={{"borderRadius": "0 0 15px 15px"}}/>
+      </StyledRegistrationLoginModal>
     </CraLikeMain>
   );
 }
-
-const StyledLogin = styled.div`
-/*background-image: url(https://images4.alphacoders.com/284/thumb-1920-284804.jpg);*/
-/*background-image: url(https://wallpaperaccess.com/full/552032.jpg);*/
-//background-image: url(https://observatoriocomunicacionviolencia.org/l/2019/12/wallpaper-kobe-bryant-basketball-nba-lakers-7-los-angeles-cool-wallpapers-schedule-tonight-all-star-game-brooklyn-nets-ichiro-suzuki-jaelen-strong-ben-simmons-and-joel-embiid-live-black-box.jpg);
-display: flex;
-flex-direction: column;
-justify-content: space-around;
-margin: auto;
-
-#login-modal {
-  border-radius: 15px;
-  margin: 0 5px;
-  min-width: 310px;
-  max-width: 415px;
-  height: 50vh;
-  min-height: fit-content;
-  display: flex;
-  flex-direction:column;
-  justify-content:space-beetwen;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-.blue-item {
-  background-color: rgba(25, 25, 112, 0.5);
-}
-
-button {
-  border: none;
-  width: 50%;
-  align-self: center;
-  margin-top: 10px;
-}
-
-input {
-  border: none;
-}
-
-h1 {
-  margin-top: 0;
-  align-self: flex-start;
-}
-
-button {
-  background-color: tomato;
-  color: white;
-  border-radius: 15px;
-  height: 30px;
-  margin-bottom: 10px;
-}
-`

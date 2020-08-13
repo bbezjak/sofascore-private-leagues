@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import { Input } from './Input'
+import { LoginRegistrationInput } from './LoginRegistrationInput'
 
 describe('Input', () => {
     const label="testInput"
@@ -9,7 +9,7 @@ describe('Input', () => {
 
   it('renders elems no error message', () => {
     const { getByText, getByPlaceholderText, debug } = render(
-    <Input
+    <LoginRegistrationInput
         label={label}
         type="text"
         onChange=""
@@ -25,7 +25,7 @@ describe('Input', () => {
 
   it('renders elems with error message', () => {
     const { getByText, getByPlaceholderText, debug } = render(
-    <Input
+    <LoginRegistrationInput
         label={label}
         type="text"
         onChange=""

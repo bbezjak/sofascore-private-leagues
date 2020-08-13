@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { ReduxState } from "../../store";
 import { Header } from "../Header";
-import { CraLikeMain, FlexboxList } from "../../utils";
+import { CraLikeMain, FlexboxList } from "../../style";
 import { League } from "../../model/league";
 import { HomeLeagueElem } from "./components/HomeLeagueElem";
-import styled from "styled-components";
 import { Button, PageTitle } from "../../components";
 import { CreateLeagueModal } from "./components/CreateLeagueModal";
 import { getLeagues } from "../../api/leagues/getLeagues";
@@ -60,11 +59,11 @@ export function HomePage() {
             {creatingLeague && (
                 <CreateLeagueModal onSuccess={addLeague} cancelCreating={() => setCreatingLeague(false)} />
             )}
-            <PageTitle>Leagues</PageTitle>
+            <PageTitle>Your leagues</PageTitle>
             <Button onClick={createLeague}><span>Add League</span></Button>
             <FlexboxList>
                 {leagues.length === 0 ?
-                    <p>There are no leagues, create some !!!</p>: 
+                    <p>There are no leagues, create some :D</p>: 
                     leagues.map((league, index) => <HomeLeagueElem key={league.leagueId + "_" + index} league={league}/>)}
             </FlexboxList>
         </CraLikeMain>

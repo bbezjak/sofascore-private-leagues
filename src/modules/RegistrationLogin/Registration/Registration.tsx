@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 
-import Input from "../components/Input/Input";
-
 import { ApiResponse, registerUser, loginUser } from "../../../api";
 import { ErrorDiv } from "../../../components/ErrorDiv";
 import { ReduxState } from "../../../store";
 import { initUser, rememberUser } from "../../../model/user";
 import { CraLikeMain } from "../../../utils";
+import { LoginRegistrationInput, StyledRegistrationLoginModal, Form } from "../components";
+
+import { Button } from "../../../components";
 
 export function Registration() {
   const [username, setUsername] = useState("");
@@ -76,12 +77,12 @@ export function Registration() {
 
   return (
     <CraLikeMain>
-      <StyledRegistration>
+      <StyledRegistrationLoginModal>
       {user.token && <Redirect to="/" />}
       <div id="login-modal" className="flex-container blue-item">
-          <h1>Create<br/> account</h1>
-          <form onSubmit={fetchUser}>
-            <Input
+          <h2>Create account</h2>
+          <Form onSubmit={fetchUser}>
+            <LoginRegistrationInput
               label="Username"
               type="text"
               onChange={(e: any) => setUsername(e.target.value)}
@@ -89,7 +90,7 @@ export function Registration() {
               displayError={errors.usernameError}
               errorMessage="Please provide username"
             />
-            <Input
+            <LoginRegistrationInput
               label="Password"
               type="password"
               onChange={(e: any) => setPassword(e.target.value)}
@@ -97,83 +98,12 @@ export function Registration() {
               displayError={errors.passwordError}
               errorMessage="Please provide password"
             />
-            <div className="flex-container">
-              <button type="submit">Register</button>
-            </div>
-          </form>
+            <Button type="submit">Register</Button>
+          </Form>
+          <a href="/login">I Have account</a>
         </div>
-        <ErrorDiv error={errors.fetchError}/>
-    </StyledRegistration>
+        {errors.fetchError && <ErrorDiv error={errors.fetchError} />}
+    </StyledRegistrationLoginModal>
     </CraLikeMain>
   );
 }
-
-const StyledRegistration = styled.div`
-/*background-image: url(https://images4.alphacoders.com/284/thumb-1920-284804.jpg);*/
-/*background-image: url(https://wallpaperaccess.com/full/552032.jpg);*/
-//background-image: url(https://observatoriocomunicacionviolencia.org/l/2019/12/wallpaper-kobe-bryant-basketball-nba-lakers-7-los-angeles-cool-wallpapers-schedule-tonight-all-star-game-brooklyn-nets-ichiro-suzuki-jaelen-strong-ben-simmons-and-joel-embiid-live-black-box.jpg);
-display: flex;
-flex-direction: column;
-justify-content: space-around;
-margin: auto;
-
-#login-modal {
-  border-radius: 15px;
-  margin: 0 5px;
-  min-width: 310px;
-  max-width: 415px;
-  height: 50vh;
-  min-height: fit-content;
-}
-
-#error-div {
-  background-color: rgba(255, 99, 71, 0.5);
-  border-radius: 15px;
-  margin: 0 5px;
-  word-wrap: break-word;
-  min-width: 310px;
-  max-width: 415px;
-  height: 10vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  p {
-    margin: 0 5px;
-  }
-} 
-
-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-.blue-item {
-  background-color: rgba(25, 25, 112, 0.5);
-}
-
-button {
-  border: none;
-  width: 50%;
-  align-self: center;
-  margin-top: 10px;
-}
-
-input {
-  border: none;
-}
-
-h1 {
-  margin-top: 0;
-  align-self: flex-start;
-}
-
-button {
-  background-color: tomato;
-  color: white;
-  border-radius: 15px;
-  height: 30px;
-  margin-bottom: 10px;
-}
-`
