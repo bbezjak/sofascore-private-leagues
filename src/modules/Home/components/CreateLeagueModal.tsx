@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Button, Input } from "../../../components";
+import { Modal, Button, Input, ModalButtonGroup } from "../../../components";
 import styled from "styled-components";
 import { League } from "../../../model/league";
 import { postLeagues } from "../../../api/leagues/postLeagues";
@@ -12,13 +12,13 @@ const leagueTemplate: Partial<League> = {
 };
 
 type Props = {
-  onSuccess: (league: League) => void,
+  onSuccess: (league: League) => void;
   cancelCreating: () => void;
 };
 
-export function CreateLeagueModal({onSuccess, cancelCreating }: Props) {
+export function CreateLeagueModal({ onSuccess, cancelCreating }: Props) {
   const [league, setLeague] = useState(leagueTemplate);
-  const user = useSelector((state: ReduxState) => state.user)
+  const user = useSelector((state: ReduxState) => state.user);
 
   async function createLeague() {
     await postLeagues(league, user.token)
@@ -26,19 +26,19 @@ export function CreateLeagueModal({onSuccess, cancelCreating }: Props) {
         const newLeague: League = {
           leagueId: res.data,
           name: league.name,
-          description: league.description
-        }
+          description: league.description,
+        };
         onSuccess(newLeague);
         cancelCreating();
       })
       .catch((res) => {
-        debugger;
-      })
+        ;
+      });
   }
 
   return (
     <Modal>
-      <FlexContainer>
+        <h2>CREATE LEAGUE</h2>
         <Input
           id={"leagueName"}
           label={"League name"}
@@ -50,21 +50,19 @@ export function CreateLeagueModal({onSuccess, cancelCreating }: Props) {
           id={"leagueData"}
           label={"League data"}
           type="text"
-          onChange={(e: any) => setLeague({ ...league, description: e.target.value })}
+          onChange={(e: any) =>
+            setLeague({ ...league, description: e.target.value })
+          }
           placeholder="ex. French 1. football league"
         ></Input>
-      </FlexContainer>
-      <Button onClick={createLeague}>
-        <span>Create</span>
-      </Button>
-      <Button onClick={cancelCreating}>
-        <span>Cancel</span>
-      </Button>
+        <ModalButtonGroup>
+          <Button onClick={createLeague}>
+            Create
+          </Button>
+          <Button onClick={cancelCreating}>
+            Cancel
+          </Button>
+        </ModalButtonGroup>
     </Modal>
   );
 }
-
-const FlexContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;

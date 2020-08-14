@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Modal, Button, Input, ErrorDiv } from "../../../components";
+import {
+  Modal,
+  Button,
+  Input,
+  ErrorDiv,
+  ModalButtonGroup,
+} from "../../../components";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { ReduxState } from "../../../store";
@@ -21,7 +27,7 @@ export function UserEditModal({ cancelEdit }: Props) {
   async function patchUser() {
     await patchMe(user.token, updatedUser)
       .then(() => {
-        debugger;
+        ;
         //const getUserName = getKeyValue<keyof Partial<User>, Partial<User>>("username")(updatedUser);
         dispatch(updateUser(user, updatedUser));
         cancelEdit();
@@ -33,7 +39,6 @@ export function UserEditModal({ cancelEdit }: Props) {
 
   return (
     <Modal>
-      <FlexContainer>
         <Input
           id={"ModalUsername"}
           label={"Username"}
@@ -43,19 +48,15 @@ export function UserEditModal({ cancelEdit }: Props) {
           }
           placeholder={user.username ? user.username : "new username"}
         ></Input>
-      </FlexContainer>
-      <Button onClick={patchUser}>
-        <span>Patch</span>
-      </Button>
-      <Button onClick={cancelEdit}>
-        <span>Cancel</span>
-      </Button>
+        <ModalButtonGroup>
+          <Button onClick={patchUser}>
+            <span>Patch</span>
+          </Button>
+          <Button onClick={cancelEdit}>
+            <span>Cancel</span>
+          </Button>
+        </ModalButtonGroup>
       {error && <ErrorDiv error={error} />}
     </Modal>
   );
 }
-
-const FlexContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;

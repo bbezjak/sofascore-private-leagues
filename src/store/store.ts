@@ -7,8 +7,7 @@ import { RootReducer } from "./rootReducer"
 
 const persistConfig = { 
     key: "leagues",
-    storage,
-    whitelist: ["user"]
+    storage
 }
 
 const persistedReducer = persistReducer(persistConfig, RootReducer)

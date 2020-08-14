@@ -1,5 +1,5 @@
 import { League } from './../model/league/league';
-import { Theme } from './theme/theme';
+import { Theme } from './../theme';
 import { User } from './../model/user';
 
 export interface ReduxState {

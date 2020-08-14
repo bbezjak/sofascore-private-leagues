@@ -5,16 +5,30 @@ import * as kobe_white from "./../image/thumb-1920-1063466.png";
 export interface Theme {
   backgroundImage: any,
   primaryColor: string,
+  secondaryColor: string,
+  tertiraryColor: string,
+  tertiraryColorDark: string,
+  textColor: string,
+  outlineColor: string
 }
 
 export const lightTheme: Theme = {
   backgroundImage: kobe_white,
-  primaryColor: "rgb(153,50,204)",
+  primaryColor: "#7d704a",
+  secondaryColor: "rgb(255,255,255)",
+  tertiraryColor: "rgb(255, 99, 71)",
+  tertiraryColorDark: "rgb(250, 38, 0)",
+  textColor: "rgb(255, 255, 255)",
+  outlineColor: "rgb(255,255,0)"
 };
 export const darkTheme: Theme = {
   backgroundImage: kobe_take_flight,
-  primaryColor: "rgb(153,50,204,0.8)", //FFFF00
-
+  primaryColor: "rgb(153,50,204)", //FFFF00
+  secondaryColor: "rgb(153,50,204)",
+  tertiraryColor: "rgb(255, 99, 71)",
+  tertiraryColorDark: "rgb(250, 38, 0)",
+  textColor: "rgb(255, 255, 255)",
+  outlineColor: "rgb(255,255,0)"
 };
 
 export const PRIMARY_COLOR = "#ab47bc";

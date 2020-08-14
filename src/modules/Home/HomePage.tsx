@@ -60,7 +60,7 @@ export function HomePage() {
                 <CreateLeagueModal onSuccess={addLeague} cancelCreating={() => setCreatingLeague(false)} />
             )}
             <PageTitle>Your leagues</PageTitle>
-            <Button onClick={createLeague}><span>Add League</span></Button>
+            <Button onClick={createLeague}>Add League</Button>
             <FlexboxList>
                 {leagues.length === 0 ?
                     <p>There are no leagues, create some :D</p>: 

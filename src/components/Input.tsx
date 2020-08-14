@@ -35,6 +35,7 @@ export function Input({
 
 const Label = styled.label`
   align-self: flex-start;
+  color: ${(props) => props.theme.secondaryColor};
 `;
 
 const InputFlexbox = styled.div<{ inline: boolean }>`

@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { League } from "../../../model/league";
 import { LeagueEvent } from "../../../model/leagueEvent";
-import { Modal, Button, Input } from "../../../components";
+import {
+  Modal,
+  Button,
+  Input,
+  ModalButtonGroup
+} from "../../../components";
 import styled from "styled-components";
 
 type Props = {
@@ -18,8 +23,7 @@ export function ModifyEventModal({ oldEvent, cancelEdit }: Props) {
 
   return (
     <Modal>
-      <FlexContainer>
-        <Input
+      <Input
           id={"eventName"}
           label={"Event name"}
           type="text"
@@ -81,36 +85,14 @@ export function ModifyEventModal({ oldEvent, cancelEdit }: Props) {
               : "event name"
           }
         ></Input>
-
-        {/* <label>Home players</label>
-         <Input
-          type="string"
-          onChange={(e: any) =>
-            setEvent({ ...event, homeTeam: e.target.value })
-          }
-          placeholder={event.homePla ? event.name : "event name"}
-        ></Input> */}
-
-        {/* <label>Away players</label>
-        <Input
-          type="string"
-          onChange={(e: any) =>
-            setEvent({ ...event, homeTeam: e.target.value })
-          }
-          placeholder={event.homeTeam ? event.name : "event name"}
-        ></Input> */}
-      </FlexContainer>
-      <Button onClick={patchEvent}>
-        <span>Patch</span>
-      </Button>
-      <Button onClick={cancelEdit}>
-        <span>Cancel</span>
-      </Button>
+        <ModalButtonGroup>
+          <Button onClick={patchEvent}>
+            <span>Patch</span>
+          </Button>
+          <Button onClick={cancelEdit}>
+            <span>Cancel</span>
+          </Button>
+        </ModalButtonGroup>
     </Modal>
   );
 }
-
-const FlexContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
