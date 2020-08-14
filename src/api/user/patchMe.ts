@@ -21,12 +21,10 @@ export async function patchMe( token: string, me: Partial<User> ): Promise<ApiRe
 
   await fetchData(api, method, headers, body)
     .then(async (res) => {
-      debugger;
       if (res.status === 204) {
         response = { success: true };
       } else if ([404, 409, 422].includes(res.status)) {
         await res.json().then((json) => {
-          debugger;
           response = { success: false, data:json.error };
         });
       }  else {

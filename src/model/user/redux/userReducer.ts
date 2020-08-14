@@ -17,7 +17,6 @@ export function userReducer(state = initialState, action: AnyAction): User {
         id: action.data.user.id
       };
     case UserActions.UPDATE_USER:
-      debugger;
       return {...action.data.oldUser, ...action.data.newData}
     case UserActions.CLEAN_USER:
       return { ...initialState };

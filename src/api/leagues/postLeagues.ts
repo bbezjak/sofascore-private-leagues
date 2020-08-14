@@ -17,14 +17,12 @@ export async function postLeagues(league: Partial<League>, token: string): Promi
       description: league.description,
     };
   
-    let response: ApiResponse = { success: false };
-    debugger;
+    let response: ApiResponse = { success: false }
   
     await fetchData(api, method, headers, body)
       .then(async (res) => {
         if (res.status === 201) {
           await res.json().then((json) => {
-            debugger;
             response = {success: true, data: json.id}
           })
         } else {

@@ -18,7 +18,6 @@ function HomeLeagueElemComponent({ league }: LeagueElemProps) {
     history.push(`/league/${league.leagueId}`);
   }
 
-  debugger;
   return (
     <Card onClick={redirectToLeague}>
       <span>{league.name}</span>

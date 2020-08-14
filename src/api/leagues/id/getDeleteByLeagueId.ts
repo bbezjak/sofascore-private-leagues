@@ -30,10 +30,8 @@ async function getDeleteByLeagueId(
 
   await fetchData(api, method, headers)
     .then(async (res) => {
-      debugger;
       if (res.status === 200) {
         await res.json().then((json) => {
-          debugger;
           response = { success: true, data: json };
         });
       } else if (res.status === 204){
@@ -43,7 +41,6 @@ async function getDeleteByLeagueId(
       }
     })
     .catch((err) => {
-      debugger;
       response = { success: false };
     });
   return new Promise<ApiResponse>((resolve, reject) => {

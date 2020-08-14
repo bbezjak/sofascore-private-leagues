@@ -12,7 +12,6 @@ export function convertToLeague(leagueData: any) {
         updatedAtTimestamp: leagueData.updatedAtTimestamp
     };
 
-    debugger;
     let events: LeagueEvent[] = [];
     leagueData.events.forEach((eventData: any) => {
         const event: LeagueEvent = convertToLeagueEvent(eventData);
@@ -24,7 +23,6 @@ export function convertToLeague(leagueData: any) {
 }
 
 export function convertToLeagueEvent(eventData: any) {
-    debugger;
     let event: LeagueEvent = {
         eventId: eventData.id,
         leagueId: eventData.leagueId,

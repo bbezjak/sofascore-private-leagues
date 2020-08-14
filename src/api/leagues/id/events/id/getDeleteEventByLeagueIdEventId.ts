@@ -33,10 +33,8 @@ async function getDeleteEventByLeagueIdEventId(
 
   await fetchData(api, method, headers)
     .then(async (res) => {
-      debugger;
       if (res.status === 200) {
         await res.json().then((json) => {
-          debugger;
           response = { success: true, data:json };
         });
       } else if (res.status === 204) {

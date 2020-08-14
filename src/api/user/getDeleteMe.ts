@@ -18,7 +18,6 @@ async function getDeleteMe(method: "get" | "delete", token: string): Promise<Api
 
     await fetchData(api, method, headers)
       .then(async (res) => {
-        debugger;
         if (res.status === 200) {
           response = {success: true}  
         } else {
@@ -26,7 +25,6 @@ async function getDeleteMe(method: "get" | "delete", token: string): Promise<Api
         }
       })
       .catch((err) => {
-        debugger;
         response = {success: false}
       });
   

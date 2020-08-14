@@ -41,7 +41,6 @@ export function LeaguePage() {
         })
         .catch((err) => {
             // TODO dodaj error div
-            debugger;
         })
   }
 
@@ -58,18 +57,15 @@ export function LeaguePage() {
   }
 
   function updateLeague(newLeague: Partial<League>) {
-    debugger;
     league!==undefined && setLeague({...league, ...newLeague});
   }
 
   function deleteLeague() {
-    debugger;
     if(league === undefined) return;
 
     deleteLeagueById(league.leagueId, user.token)
       .then(() =>  history.goBack())
       .catch((err) => {
-        debugger;
         // TODO neki mobile friendly error page
       })
   }

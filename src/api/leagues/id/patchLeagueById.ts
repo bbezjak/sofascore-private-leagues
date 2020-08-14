@@ -21,10 +21,8 @@ export async function patchByLeagueId(
 
   let response: ApiResponse = { success: false };
 
-  debugger;
   await fetchData(api, method, headers, body)
     .then(async (res) => {
-      debugger;
       if (res.status === 204) {
         response = { success: true };
       } else {
@@ -32,7 +30,6 @@ export async function patchByLeagueId(
       }
     })
     .catch((err) => {
-      debugger;
       response = { success: false, data: err };
     });
 

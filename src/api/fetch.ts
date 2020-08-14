@@ -2,7 +2,6 @@ export const HOST = "https://private-leagues-api.herokuapp.com/api";
 
 export function fetchData(api: string, method: string, headers: HeadersInit, body?: object): Promise<Response> {
   const url = HOST + api;
-  debugger;
   if (body === undefined) {
     return fetch(url, {
       headers: headers,
@@ -10,7 +9,6 @@ export function fetchData(api: string, method: string, headers: HeadersInit, bod
     });
   } else {
     const bodyString = JSON.stringify(body);
-    debugger;
     return fetch(url, {
       headers: headers,
       method: method,

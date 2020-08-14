@@ -23,7 +23,6 @@ export async function postEventsByLeagueId(
 
   await fetchData(api, method, headers, body)
     .then(async (res) => {
-      debugger;
       if (res.status === 201) {
         await res.json().then((json) => {
           response = { success: true, data: json.id };
@@ -33,7 +32,6 @@ export async function postEventsByLeagueId(
       }
     })
     .catch((err) => {
-      debugger;
       response = { success: false };
     });
 

@@ -20,10 +20,8 @@ export function UserPage() {
       if (token !== undefined) {
         getMe(token)
           .then((res) => {
-            debugger;
           })
           .catch((err) => {
-            debugger;
           });
       }
     },

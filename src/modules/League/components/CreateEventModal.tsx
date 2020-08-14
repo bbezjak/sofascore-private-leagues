@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { LeagueEvent } from "../../../model/leagueEvent";
-import { Modal, Button, Input } from "../../../components";
+import {
+  Modal,
+  Button,
+  Input,
+  ModalButtonGroup,
+} from "../../../components";
 import styled from "styled-components";
 import { League } from "../../../model/league";
 import { postEventsByLeagueId } from "../../../api";
@@ -18,7 +23,6 @@ export function CreateEventModal({ league, onSuccess, cancelEdit }: Props) {
   const [event, setEvent] = useState<Partial<LeagueEvent>>({});
 
   function postEvent() {
-    debugger;
     const requestBody: Partial<LeagueEvent> = event;
     requestBody.leagueId = league.leagueId;
     requestBody.admins = league.admins;
@@ -30,18 +34,15 @@ export function CreateEventModal({ league, onSuccess, cancelEdit }: Props) {
           ...event,
           admins: requestBody.admins,
         };
-        debugger;
         onSuccess(newEvent);
         cancelEdit();
       })
       .catch((err) => {
-        debugger;
       });
   }
 
   return (
     <Modal>
-      <FlexContainer>
         <Input
           id={"eventName"}
           label={"Event name"}
@@ -69,18 +70,10 @@ export function CreateEventModal({ league, onSuccess, cancelEdit }: Props) {
           }
           placeholder="ex. Boston Celtics"
         ></Input>
-      </FlexContainer>
-      <Button onClick={postEvent}>
-        <span>Create</span>
-      </Button>
-      <Button onClick={cancelEdit}>
-        <span>Cancel</span>
-      </Button>
+        <ModalButtonGroup>
+          <Button onClick={postEvent}>Create</Button>
+          <Button onClick={cancelEdit}>Cancel</Button>
+        </ModalButtonGroup>
     </Modal>
   );
 }
-
-const FlexContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;

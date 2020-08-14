@@ -15,7 +15,6 @@ export async function getLeagues(token: string): Promise<ApiResponse> {
       .then(async (res) => {
         if (res.status === 200) {
           await res.json().then((json) => {
-            debugger;
             response = {success: true, data:json}
           })
         } else {

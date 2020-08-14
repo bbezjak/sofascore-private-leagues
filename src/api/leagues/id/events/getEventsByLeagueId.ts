@@ -18,9 +18,7 @@ export async function getEventsByLeagueId(
   await fetchData(api, method, headers)
     .then((res) => {
       if (res.status === 200) {
-        debugger;
         res.json().then((json) => {
-          debugger;
           response = { success: true };
         });
       } else {
