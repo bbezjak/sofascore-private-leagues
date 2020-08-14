@@ -45,32 +45,3 @@ const ErrorMessage = styled.span<{ theme: Theme }>`
   text-align: start;
   font-size: medium;
 `
-
-/*
-  <input
-        className="login-element"
-        type={type}
-        onChange={(e) => onChange(e)}
-        placeholder={placeholder}
-      ></input>
-*/
-
-/*
-.login-element {
-  border-radius: 15px;
-  padding: 0 15px;
-  margin: 0 10px;
-  height: 30px;
-}
-
-.input-label {
-  margin-left: 10px;
-  text-align: left;
-}
-
-.error-mesagge {
-  color: tomato;
-  text-align: start;
-  margin-left: 20px;
-}
-*/

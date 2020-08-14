@@ -34,21 +34,3 @@ export const loginModal = styled.div`
   flex-direction: column;
   justify-content: space-beetwen;
 `;
-
-/*
-
-button {
-  border: none;
-  width: 50%;
-  align-self: center;
-  margin-top: 10px;
-}
-
-button {
-  background-color: tomato;
-  color: white;
-  border-radius: 15px;
-  height: 30px;
-  margin-bottom: 10px;
-}
-*/
