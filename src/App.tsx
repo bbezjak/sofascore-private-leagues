@@ -14,7 +14,7 @@ import { cleanUser } from "./model/user/redux/userActions";
 import { store, persistor } from "./store";
 
 import "./App.css";
-import { GlobalStyles } from "./utils/styles";
+import { GlobalStyles } from "./style";
 import { Registration } from "./modules/RegistrationLogin/Registration/Registration";
 import { LeaguePage } from "./modules/League";
 import { EventPage } from "./modules/Event";

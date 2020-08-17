@@ -6,7 +6,7 @@ import { loginUser, ApiResponse } from "../../../api";
 import { ErrorDiv, Checkbox, Button } from "../../../components";
 import { ReduxState } from "../../../store";
 import { initUser, rememberUser } from "../../../model/user";
-import { CraLikeMain } from "../../../utils";
+import { CraLikeMain } from "../../../style";
 import { LoginRegistrationInput } from "../components/LoginRegistrationInput/LoginRegistrationInput";
 import { StyledRegistrationLoginModal, Form } from "../components";
 

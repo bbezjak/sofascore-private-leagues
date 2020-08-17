@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { League } from "../../../model/league";
 import { Button } from "../../../components";
 import { LeagueEvent } from "../../../model/leagueEvent";
-import { Card } from "../../../utils";
+import { Card } from "../../../style";
 
 type Props = {
     leagueId: string,

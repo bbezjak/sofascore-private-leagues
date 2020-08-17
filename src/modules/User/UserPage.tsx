@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ReduxState } from "../../store";
-import { CraLikeMain } from "../../utils";
+import { CraLikeMain } from "../../style";
 import { Header } from "../Header";
 import { getMe, deleteMe } from "../../api";
 import { UserEditModal } from "./components/UserEditModal";

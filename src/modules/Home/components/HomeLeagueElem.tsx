@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
 import { League } from "../../../model/league";
-import { Card } from "../../../utils";
+import { Card } from "../../../style";
 
 export type LeagueElemProps = {
   league: League;

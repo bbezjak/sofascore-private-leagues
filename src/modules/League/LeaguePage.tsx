@@ -1,7 +1,8 @@
 import React, { useState, useEffect} from "react";
 import { League } from "../../model/league";
 import { Button } from "../../components";
-import { CraLikeMain, FlexboxList, convertToLeague } from "../../utils";
+import { CraLikeMain, FlexboxList } from "../../style";
+import { convertToLeague } from "../../utils";
 import { useParams, useHistory } from "react-router-dom";
 import { Header } from "../Header";
 import { LeagueEditModal } from "./components/LeagueEditModal";

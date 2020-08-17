@@ -1,6 +1,5 @@
 import { _Children, _Stylable } from "./types";
 
-export * from "./styles";
 export * from "./transformations"
 
 // Interfaces cannot be re-exported

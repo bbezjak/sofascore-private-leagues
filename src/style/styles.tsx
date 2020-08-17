@@ -1,29 +1,5 @@
 import styled, { css, createGlobalStyle } from "styled-components";
-import { Theme } from "./../theme/theme";
-
-export const PRIMARY_COLOR = "#ab47bc";
-export const PRIMARY_COLOR_LIGHT = "#df78ef";
-export const PRIMARY_COLOR_DARK = "#790e8b";
-
-export const BACKGROUND_COLOR = "#121212";
-export const SURFACE_BACKGROUND_COLOR = "rgba(255, 255, 255, 0.1)";
-export const TEXT_COLOR = "#121212";
-
-export const primaryColor = css`
-  color: ${PRIMARY_COLOR};
-`;
-
-export const backgroundColor = css`
-  background-color: ${BACKGROUND_COLOR};
-`;
-
-export const surfaceBackgroundColor = css`
-  background-color: ${SURFACE_BACKGROUND_COLOR};
-`;
-
-export const textColor = css`
-  color: ${TEXT_COLOR};
-`;
+import { Theme } from "../theme/theme";
 
 export const Fade = styled.div<{ visible?: boolean }>`
   transition: opacity 0.2s ease-in-out;
@@ -39,8 +15,8 @@ export const CraLikeMain = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 
@@ -49,27 +25,27 @@ export const CraLikeMain = styled.div`
   }
 `;
 
-export const Card = styled.div`
-  width: 300px;
+export const Card = styled.div<{ theme: Theme }>`
+  min-width: 270px;
   display: flex;
   flex-direction: column;
-  background-color: gold;
+  background-color: ${(props) => props.theme.primaryColor};
   border-radius: 15px;
   margin: 5px auto;
   padding: 5px;
 
   :hover {
-    background-color: purple;
+    background-color: ${(props) => props.theme.tertiraryColor};
   }
 `;
 
 export const FlexboxList = styled("div")<{ column?: boolean }>`
   min-height: fit-content;
-  margin: auto;
   display: flex;
   ${(props) => props.column && `flex-direction: column`};
   justify-content: space-around;
   flex-wrap: wrap;
+  margin: auto;
 
   only screen and (min-width:769px) {
     width: 60%;
@@ -81,13 +57,12 @@ export const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
   body {
     background-image: url(${({ theme }) => theme.backgroundImage});
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: right;
     background-size: cover;
     font-family: 'Lato', sans-serif;
     user-select: none;
-    ${backgroundColor};
-    ${textColor};
     margin: 0;
+    color: ${({ theme }) => theme.secondaryColor};
   }
 
   a {
@@ -96,21 +71,15 @@ export const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
     text-transform: uppercase;
     font-size: 18px;
     font-weight: bold;
-    ${primaryColor};
+    color: ${({ theme }) => theme.secondaryColor};
 
     &:hover {
       text-decoration: none;
-      color: ${PRIMARY_COLOR_LIGHT};
+      color: ${({ theme }) => theme.tertiraryColor};
     }
 
     &:visited {
       text-decoration: none
-    }
-  }
-
-  @media only screen and (max-width: 768px) {
-    body {
-      
     }
   }
 `;
